@@ -11,25 +11,23 @@
 using namespace std;
 using namespace cv;
 
-Mat src; Mat dst;
+Mat img; Mat dst;
+Mat b_image;
 char window_name1[] = "Unprocessed Image";
 char window_name2[] = "Processed Image";
 
 int main( int argc, char** argv )
 {
     /// Load the source image
-    src = imread( argv[1], 1 );
-    
+    img = imread( argv[1], 1 );
+    cvtColor(img,dst,CV_BGR2GRAY);
     namedWindow( window_name1, WINDOW_AUTOSIZE );
-    imshow("Unprocessed Image",src);
-    
-    //dst = src.clone();
-    //GaussianBlur( src, dst, Size( 15, 15 ), 0, 0 );
-    cvtColor(src,dst,CV_BGR2GRAY);
-    
+    imshow("Unprocessed Image",img);
     namedWindow( window_name2, WINDOW_AUTOSIZE );
     imshow("Processed Image",dst);
-    
+    threshold(dst,b_image,128,255,THRESH_BINARY);
+    namedWindow("Binary image", WINDOW_AUTOSIZE);
+    imshow("Binary image",b_image);
     waitKey();
     return 0;
 }
